@@ -11,10 +11,8 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import TableFooter from "@material-ui/core/TableFooter";
 import TextField from "@material-ui/core/TextField";
 
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-
 import { isEqualM } from "../../services/countryService";
+import CountriesItem from "./CountriesItem"
 
 import classes from "./styles.module.css";
 
@@ -79,28 +77,9 @@ class CountriesList extends Component {
             </TableRow>
           </TableHead>
           <TableBody onClick={this.handleClick}>
-            {countries.map(country => (
-              <TableRow key={country.id}>
-                <TableCell component="th" scope="row">
-                  <DeleteIcon
-                    className={classes.icon}
-                    data-action="isDelete"
-                    data-id={country.id}
-                  />
-                  <EditIcon
-                    className={classes.icon}
-                    data-action="isEdit"
-                    data-id={country.id}
-                  />
-                </TableCell>
-                <TableCell component="th" scope="row" align="left">
-                  {country.name}
-                </TableCell>
-                <TableCell component="th" scope="row" align="left">
-                  {country.capital}
-                </TableCell>
-              </TableRow>
-            ))}
+            {countries.map(country => 
+              <CountriesItem coutry={country} />
+            )}
           </TableBody>
           <TableFooter>
             <TableRow>
