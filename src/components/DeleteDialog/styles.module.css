@@ -1,0 +1,33 @@
+.question {
+  padding: 10px;
+}
+
+.btn {
+  background-color: grey;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  padding: 8px 20px;
+  text-decoration: none;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: ease-in 300ms;
+}
+
+.btnPrimary {
+  background-color: rgb(58, 146, 58);
+}
+
+.btnPrimary:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  background-color: rgb(29, 131, 29);
+}
+
+.btnCancel {
+  background-color: rgb(197, 61, 61);
+}
+
+.btnCancel:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  background-color: rgb(202, 32, 32);
+}

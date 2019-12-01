@@ -1,0 +1,31 @@
+.root {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  min-width: 450px;
+}
+
+.actions {
+  width: 50px;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.footerActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.findFild {
+  width: 60%;
+}
+
