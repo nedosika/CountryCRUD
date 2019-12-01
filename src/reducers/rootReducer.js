@@ -16,7 +16,7 @@ const initialState = {
   //   { id: "4", name: "Great Britain", capital: "London" },
   //   { id: "5", name: "India", capital: "Deli" }
   // ],
-  countries: generateRandomCountries(1000),
+  countries: generateRandomCountries(10000),
   filter: "",
   sortField: "name",
   sortDirection: "desc"

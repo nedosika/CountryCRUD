@@ -1,15 +1,15 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import * as actions from "../../actions/actions";
 
-import CountriesList from "../CountriesList";
+import CountriesList from "./CountriesList";
 import Dialog from "../Dialog";
 import DeleteDialog from "../DeleteDialog";
 
 import { applyFilter } from "../../services/countryService";
 
-class CountriesPage extends Component{
+class CountriesPage extends Component {
   state = {
     isDelete: false,
     isEdit: false,
@@ -32,7 +32,7 @@ class CountriesPage extends Component{
     });
   };
 
-  render(){
+  render() {
     const {
       countries,
       removeCountry,
@@ -44,12 +44,12 @@ class CountriesPage extends Component{
     } = this.props;
     const { isEdit, isAdd, isDelete, id } = this.state;
 
-    return(
+    return (
       <>
-        <CountriesList 
-          countries={countries} 
+        <CountriesList
+          countries={countries}
           onFilterCountries={filterCountries}
-          onSortCountries={sortCountries} 
+          onSortCountries={sortCountries}
           onOpenDialog={this.handleOpenDialog}
           {...restProps}
         />

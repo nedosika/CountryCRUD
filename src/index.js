@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import "./styles.css";
-import CountriesPage from "./components/CountriesPage";
+import CountriesPage from "./components/Countries";
 import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {

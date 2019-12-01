@@ -5,15 +5,14 @@ import TableRow from "@material-ui/core/TableRow";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
-
 import classes from "./styles.module.css";
 
-class CountriesItem extends PureComponent {
+export default class CountriesItem extends PureComponent {
   render(){
-    const {country} = this.props;
+    const {country, index} = this.props;
     
     return(
-      <TableRow key={country.id}>
+      <TableRow>
         <TableCell component="th" scope="row">
           <DeleteIcon
             className={classes.icon}
@@ -27,6 +26,9 @@ class CountriesItem extends PureComponent {
           />
         </TableCell>
         <TableCell component="th" scope="row" align="left">
+          {index + 1}
+        </TableCell>
+        <TableCell component="th" scope="row" align="left">
           {country.name}
         </TableCell>
         <TableCell component="th" scope="row" align="left">
@@ -36,5 +38,3 @@ class CountriesItem extends PureComponent {
     );
   }
 }
-
-export default CountriesItem;

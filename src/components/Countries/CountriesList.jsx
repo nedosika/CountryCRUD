@@ -12,11 +12,11 @@ import TableFooter from "@material-ui/core/TableFooter";
 import TextField from "@material-ui/core/TextField";
 
 import { isEqualM } from "../../services/countryService";
-import CountriesItem from "./CountriesItem"
+import CountriesItem from "./CountriesItem";
 
 import classes from "./styles.module.css";
 
-class CountriesList extends Component {
+export default class CountriesList extends Component {
   shouldComponentUpdate(nextProps) {
     return !isEqualM(this.props.countries, nextProps.countries);
   }
@@ -50,6 +50,9 @@ class CountriesList extends Component {
               <TableCell className={classes.actions}>
                 <span className={classes.title}>Actions</span>
               </TableCell>
+              <TableCell className={classes.actions}>
+                <span className={classes.title}>№</span>
+              </TableCell>
               <TableCell
                 sortDirection={sortField === "name" ? sortDirection : false}
               >
@@ -77,13 +80,13 @@ class CountriesList extends Component {
             </TableRow>
           </TableHead>
           <TableBody onClick={this.handleClick}>
-            {countries.map(country => 
-              <CountriesItem coutry={country} />
+            {countries.map((country, index) => 
+              <CountriesItem country={country} key={country.id} index={index}/>
             )}
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={3}>
+              <TableCell colSpan={4}>
                 <div className={classes.footerActions}>
                   <AddCircleIcon
                     className={classes.icon}
@@ -105,5 +108,3 @@ class CountriesList extends Component {
     );
   }
 }
-
-export default CountriesList;
