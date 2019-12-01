@@ -6,7 +6,7 @@ import {
   SORT_COUNTRY
 } from "../consts/consts";
 
-import { setLocalStorage, initLocalStorage, generateRandomCountries } from "../services/countryService";
+import { setLocalStorage, initLocalStorage, generateRandomCountries } from "../utils";
 
 const initialState = {
   // countries: [
@@ -16,7 +16,7 @@ const initialState = {
   //   { id: "4", name: "Great Britain", capital: "London" },
   //   { id: "5", name: "India", capital: "Deli" }
   // ],
-  countries: generateRandomCountries(10000),
+  countries: generateRandomCountries(100),
   filter: "",
   sortField: "name",
   sortDirection: "desc"

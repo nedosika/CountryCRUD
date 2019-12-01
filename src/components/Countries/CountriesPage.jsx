@@ -7,7 +7,7 @@ import CountriesList from "./CountriesList";
 import Dialog from "../Dialog";
 import DeleteDialog from "../DeleteDialog";
 
-import { applyFilter } from "../../services/countryService";
+import { applyFilter } from "../../utils";
 
 class CountriesPage extends Component {
   state = {

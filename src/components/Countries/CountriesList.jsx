@@ -11,14 +11,14 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import TableFooter from "@material-ui/core/TableFooter";
 import TextField from "@material-ui/core/TextField";
 
-import { isEqualM } from "../../services/countryService";
+import { isEqual } from "../../utils";
 import CountriesItem from "./CountriesItem";
 
 import classes from "./styles.module.css";
 
 export default class CountriesList extends Component {
   shouldComponentUpdate(nextProps) {
-    return !isEqualM(this.props.countries, nextProps.countries);
+    return !isEqual(this.props.countries, nextProps.countries);
   }
 
   componentDidUpdate() {

@@ -2,19 +2,11 @@ import memoize from "memoize-one";
 import shortid from "shortid";
 
 export const isEqual = (array1, array2) => {
-  // return JSON.stringify(array1).toString() !==
-  // JSON.stringify(array2).toString()
   return (
     array1.length === array2.length &&
     array1.every((value, index) => value === array2[index])
   );
 };
-
-export const isEqualM = memoize(
-  (array1, array2) =>
-    array1.length === array2.length &&
-    array1.every((value, index) => value === array2[index])
-);
 
 const compare = (field, direction) => (country1, country2) => {
   if (country1[field].toLowerCase() < country2[field].toLowerCase())
