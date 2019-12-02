@@ -23,7 +23,7 @@ const initialState = {
 };
 
 const rootReducer = (state = initLocalStorage(initialState), action) => {
-  //console.log(state, action);
+  console.log(state, action);
   switch (action.type) {
     case ADD_COUNTRY:
       const withAddedCountry = [...state.countries, action.payload];

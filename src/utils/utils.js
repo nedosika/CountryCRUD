@@ -18,14 +18,16 @@ const compare = (field, direction) => (country1, country2) => {
   return 0;
 };
 
-export const applyFilter = memoize((countries, filter, field, direction) =>
-  countries
-    .filter(
-      country =>
-        country.name.toLowerCase().includes(filter.toLowerCase()) ||
-        country.capital.toLowerCase().includes(filter.toLowerCase())
-    )
-    .sort(compare(field, direction))
+export const filtrate = memoize((countries, filter) =>
+  countries.filter(
+    country =>
+      country.name.toLowerCase().includes(filter.toLowerCase()) ||
+      country.capital.toLowerCase().includes(filter.toLowerCase())
+  )
+);
+
+export const sort = memoize((countries, field, direction) =>
+  [...countries].sort(compare(field, direction))
 );
 
 export const setLocalStorage = countries => {
@@ -36,11 +38,10 @@ export const setLocalStorage = countries => {
 export const getFromLocalStorage = item =>
   JSON.parse(localStorage.getItem(item));
 
-export const initLocalStorage = initialState => {
-  return localStorage.getItem("countries")
+export const initLocalStorage = initialState =>
+  localStorage.getItem("countries")
     ? { ...initialState, countries: getFromLocalStorage("countries") }
     : { ...initialState, countries: setLocalStorage(initialState.countries) };
-};
 
 export const generateRandomCountries = count => {
   const countries = [];

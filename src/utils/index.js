@@ -2,6 +2,7 @@ export {
   setLocalStorage,
   initLocalStorage,
   generateRandomCountries,
-  applyFilter,
+  filtrate,
+  sort,
   isEqual
 } from "./utils";

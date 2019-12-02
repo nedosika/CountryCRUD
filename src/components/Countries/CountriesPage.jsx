@@ -7,7 +7,7 @@ import CountriesList from "./CountriesList";
 import Dialog from "../Dialog";
 import DeleteDialog from "../DeleteDialog";
 
-import { applyFilter } from "../../utils";
+import { filtrate, sort } from "../../utils";
 
 class CountriesPage extends Component {
   state = {
@@ -82,7 +82,7 @@ class CountriesPage extends Component {
 }
 
 const mapStateToProps = ({ countries, filter, sortField, sortDirection }) => ({
-  countries: applyFilter(countries, filter, sortField, sortDirection),
+  countries: sort(filtrate(countries, filter), sortField, sortDirection),
   sortField,
   sortDirection
 });
