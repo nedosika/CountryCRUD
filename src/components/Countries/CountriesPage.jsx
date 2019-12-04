@@ -26,10 +26,10 @@ class CountriesPage extends Component {
   };
 
   handleOpenDialog = (field, id) => {
-    this.setState({
+    this.setState(()=>({
       [field]: true,
       id
-    });
+    }));
   };
 
   render() {
@@ -65,7 +65,7 @@ class CountriesPage extends Component {
           isOpen={isEdit}
           title="Edit Dialog"
           onSubmit={country => updateCountry(country)}
-          country={countries.find(country => country.id === id)}
+          country={countries.find(country => country.id == id)}
           close={this.closeDialogs}
         />
 

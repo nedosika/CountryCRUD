@@ -1,4 +1,4 @@
-import React, {PureComponent} from "react";
+import React from "react";
 
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
@@ -7,11 +7,20 @@ import EditIcon from "@material-ui/icons/Edit";
 
 import classes from "./styles.module.css";
 
-export default class CountriesItem extends PureComponent {
-  render(){
-    const {country, index} = this.props;
-    
-    return(
+const CountriesItem = React.memo(props => {
+  // shouldComponentUpdate(nextProps) {
+  //   return this.props.country.id !== nextProps.country.id;
+  // }
+  // componentDidMount() {
+  //   console.log("CountriesItem mounted");
+  // }
+  // componentDidUpdate() {
+  //   console.log("CountriesItem updated");
+  // }
+  // render() {
+    const { country } = props;
+
+    return (
       <TableRow>
         <TableCell component="th" scope="row">
           <DeleteIcon
@@ -26,7 +35,7 @@ export default class CountriesItem extends PureComponent {
           />
         </TableCell>
         <TableCell component="th" scope="row" align="left">
-          {index + 1}
+          {country.id}
         </TableCell>
         <TableCell component="th" scope="row" align="left">
           {country.name}
@@ -36,5 +45,8 @@ export default class CountriesItem extends PureComponent {
         </TableCell>
       </TableRow>
     );
-  }
-}
+  
+});
+
+
+export default CountriesItem;

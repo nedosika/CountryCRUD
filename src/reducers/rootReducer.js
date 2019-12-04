@@ -16,14 +16,14 @@ const initialState = {
   //   { id: "4", name: "Great Britain", capital: "London" },
   //   { id: "5", name: "India", capital: "Deli" }
   // ],
-  countries: generateRandomCountries(100),
+  countries: generateRandomCountries(50000),
   filter: "",
-  sortField: "name",
+  sortField: "id",
   sortDirection: "desc"
 };
 
 const rootReducer = (state = initLocalStorage(initialState), action) => {
-  console.log(state, action);
+  //console.log(state, action);
   switch (action.type) {
     case ADD_COUNTRY:
       const withAddedCountry = [...state.countries, action.payload];

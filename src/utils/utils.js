@@ -9,10 +9,10 @@ export const isEqual = (array1, array2) => {
 };
 
 const compare = (field, direction) => (country1, country2) => {
-  if (country1[field].toLowerCase() < country2[field].toLowerCase())
+  if (country1[field] < country2[field])
     return direction === "desc" ? -1 : 1;
 
-  if (country1[field].toLowerCase() > country2[field].toLowerCase())
+  if (country1[field] > country2[field])
     return direction === "desc" ? 1 : -1;
 
   return 0;
@@ -47,7 +47,7 @@ export const generateRandomCountries = count => {
   const countries = [];
   for (let i = 0; i < count; i++) {
     countries.push({
-      id: shortid.generate(),
+      id: i + 1,
       name: shortid.generate(),
       capital: shortid.generate()
     });
