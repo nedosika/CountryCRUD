@@ -6,23 +6,26 @@ import {
   SORT_COUNTRY
 } from "../consts/consts";
 
-import { setLocalStorage, initLocalStorage, generateRandomCountries } from "../utils";
+import CountriesService from "../services/CountriesService";
+
+const countriesService = new CountriesService();
 
 const initialState = {
-  // countries: [
-  //   { id: "1", name: "Ukraine", capital: "Kyiv" },
-  //   { id: "2", name: "Russia", capital: "Moscow" },
-  //   { id: "3", name: "USA", capital: "Washington" },
-  //   { id: "4", name: "Great Britain", capital: "London" },
-  //   { id: "5", name: "India", capital: "Deli" }
+  // countries:
+  // [
+  //   { id: 1, name: "Ukraine", capital: "Kyiv" },
+  //   { id: 2, name: "Russia", capital: "Moscow" },
+  //   { id: 3, name: "USA", capital: "Washington" },
+  //   { id: 4, name: "Great Britain", capital: "London" },
+  //   { id: 5, name: "India", capital: "Deli" }
   // ],
-  countries: generateRandomCountries(50000),
+  countries: countriesService.getCountries(),
   filter: "",
   sortField: "id",
   sortDirection: "desc"
 };
 
-const rootReducer = (state = initLocalStorage(initialState), action) => {
+const rootReducer = (state = initialState, action) => {
   //console.log(state, action);
   switch (action.type) {
     case ADD_COUNTRY:

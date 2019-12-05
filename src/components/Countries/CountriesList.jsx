@@ -19,10 +19,8 @@ const buffer = 3;
 
 export default class CountriesTable extends Component {
   state = {
-    start: 0,
-    end: Math.round(window.innerHeight / heightElement)
-  };
-
+    offset: window.pageYOffset
+  }
   componentDidMount() {
     window.addEventListener("scroll", this.scroll);
   }
@@ -32,22 +30,14 @@ export default class CountriesTable extends Component {
   }
 
   scroll = () => {
-    const startIndex = Math.floor(window.pageYOffset / heightElement);
-
-    if (this.state.start <= startIndex) {
-      const endIndex =
-        Math.ceil((window.pageYOffset + window.innerHeight) / heightElement) +
-        buffer;
-
+    if(Math.abs(this.state.offset - window.pageYOffset) > heightElement)
       this.setState({
-        start: startIndex >= buffer ? startIndex - buffer : 0,
-        end: endIndex
-      });
-    }
+        offset: window.pageYOffset
+      })
   };
 
-  componentDidUpdate() {
-    console.log("CountriesTableUpdated");
+  componentDidUpdate(prevProps, prevState, snapshot){
+    console.log(Math.abs(prevState.offset - window.pageYOffset))
   }
 
   handleClick = event => {
@@ -66,16 +56,23 @@ export default class CountriesTable extends Component {
       onOpenDialog
     } = this.props;
 
-    const { start, end } = this.state;
+    const calculateStart = Math.floor(this.state.offset / heightElement) - buffer;
+    const start =  calculateStart < 0 ? 0 : calculateStart;
+    const end = Math.ceil(
+      (this.state.offset + window.innerHeight) / heightElement
+    );
 
-    const paddingTop = start > buffer ? (start - buffer) * heightElement : 0;
+    const paddingTop = start * heightElement;
 
-    const height = countries.length * heightElement - paddingTop + buffer * heightElement;
+    const height = (countries.length + buffer) * heightElement - paddingTop;
 
     return (
       <Paper
         className={classes.root}
-        style={{ height, paddingTop: `${paddingTop}px` }}
+        style={{
+          height: `${height}px`,
+          paddingTop: `${paddingTop}px`
+        }}
       >
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
@@ -137,12 +134,9 @@ export default class CountriesTable extends Component {
             </TableRow>
           </TableHead>
           <TableBody onClick={this.handleClick}>
-            { 
-              countries.map((country, index) =>
-                index >= start && index <= end ? (
-                  <CountriesItem country={country} key={country.id} />
-                ) : null)
-            }
+            {countries.slice(start, end).map(country =>
+                <CountriesItem country={country} key={country.id} />
+            )}
           </TableBody>
         </Table>
       </Paper>
