@@ -12,38 +12,43 @@ import TextField from "@material-ui/core/TextField";
 
 import CountriesItem from "./CountriesItem";
 
+import { debounce, throttle } from "../../utils/";
+
 import classes from "./styles.module.css";
 
 const heightElement = 62;
-const buffer = 3;
+const buffer = 25;
 
 export default class CountriesTable extends Component {
   state = {
     offset: window.pageYOffset
-  }
+  };
+
   componentDidMount() {
-    window.addEventListener("scroll", this.scroll);
+    window.addEventListener("scroll", debounce(this.update, 100));
+    window.addEventListener("resize", debounce(this.update, 100));
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.scroll);
+    window.removeEventListener("scroll", debounce(this.update, 100));
+    window.removeEventListener("resize", debounce(this.update, 100));
   }
 
-  scroll = () => {
-    if(Math.abs(this.state.offset - window.pageYOffset) > heightElement)
-      this.setState({
-        offset: window.pageYOffset
-      })
+  update = () => {
+    this.setState({
+      offset: window.pageYOffset
+    });
   };
 
-  componentDidUpdate(prevProps, prevState, snapshot){
-    console.log(Math.abs(prevState.offset - window.pageYOffset))
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("CountriesList update");
   }
 
-  handleClick = event => {
-    const svg = event.target.closest("svg");
-
-    if (svg) this.props.onOpenDialog(svg.dataset.action, svg.dataset.id);
+  handleClick = ({target}) => {
+    if (target.closest("svg")) {
+      const { action, id } = target.closest("svg").dataset;
+      this.props.onOpenDialog(action, id);
+    }
   };
 
   render() {
@@ -56,21 +61,24 @@ export default class CountriesTable extends Component {
       onOpenDialog
     } = this.props;
 
-    const calculateStart = Math.floor(this.state.offset / heightElement) - buffer;
-    const start =  calculateStart < 0 ? 0 : calculateStart;
-    const end = Math.ceil(
-      (this.state.offset + window.innerHeight) / heightElement
+    const calculateStart =
+      Math.floor(window.pageYOffset / heightElement) - buffer;
+
+    const startElementPosition = calculateStart < 0 ? 0 : calculateStart;
+
+    const endElementPosition = Math.ceil(
+      (window.pageYOffset + window.innerHeight) / heightElement + buffer
     );
 
-    const paddingTop = start * heightElement;
+    const paddingTop = startElementPosition * heightElement;
 
-    const height = (countries.length + buffer) * heightElement - paddingTop;
+    const heightElements = (countries.length + 3) * heightElement - paddingTop;
 
     return (
       <Paper
         className={classes.root}
         style={{
-          height: `${height}px`,
+          height: `${heightElements}px`,
           paddingTop: `${paddingTop}px`
         }}
       >
@@ -97,15 +105,8 @@ export default class CountriesTable extends Component {
               <TableCell className={classes.actions}>
                 <span className={classes.title}>Actions</span>
               </TableCell>
-              <TableCell className={classes.actions}>
-                <TableSortLabel
-                  active={sortField === "id"}
-                  direction={sortDirection}
-                  onClick={() => onSortCountries("id")}
-                  className={classes.title}
-                >
-                  №
-                </TableSortLabel>
+              <TableCell>
+                <span className={classes.title}>№</span>
               </TableCell>
               <TableCell
                 sortDirection={sortField === "name" ? sortDirection : false}
@@ -133,10 +134,20 @@ export default class CountriesTable extends Component {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody onClick={this.handleClick}>
-            {countries.slice(start, end).map(country =>
-                <CountriesItem country={country} key={country.id} />
-            )}
+          <TableBody onClick={this.handleClick} ref={this.TableBodyRef}>
+            {countries
+              .slice(startElementPosition, endElementPosition)
+              .map((country, index) => (
+                <CountriesItem
+                  country={country}
+                  key={country.id}
+                  index={
+                    sortDirection === "desc"
+                      ? startElementPosition + index + 1
+                      : countries.length - index - startElementPosition
+                  }
+                />
+              ))}
           </TableBody>
         </Table>
       </Paper>

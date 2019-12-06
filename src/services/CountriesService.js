@@ -7,16 +7,20 @@ export default class CountriesService {
 
   init = countries => {
     if(!localStorage.getItem("countries"))
-      localStorage.setItem("countries", JSON.stringify(countries));
+      this.setCountries(countries);
   };
+
+  setCountries = countries => {
+    localStorage.setItem("countries", JSON.stringify(countries));
+  }
 
   getCountries = () => JSON.parse(localStorage.getItem("countries"));
 
-  static generateRandomCountries = (count = 1000) => {
+  static generateRandomCountries = (count = 10000) => {
     const countries = [];
     for (let i = 0; i < count; i++) {
       countries.push({
-        id: i + 1,
+        id: shortid.generate(),
         name: shortid.generate(),
         capital: shortid.generate()
       });

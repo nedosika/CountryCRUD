@@ -21,16 +21,16 @@ const initialState = {
   // ],
   countries: countriesService.getCountries(),
   filter: "",
-  sortField: "id",
+  sortField: "name",
   sortDirection: "desc"
 };
 
 const rootReducer = (state = initialState, action) => {
-  //console.log(state, action);
+  console.log(state, action);
   switch (action.type) {
     case ADD_COUNTRY:
       const withAddedCountry = [...state.countries, action.payload];
-      setLocalStorage(withAddedCountry);
+      countriesService.setCountries(withAddedCountry);
       return {
         ...state,
         countries: withAddedCountry
@@ -40,7 +40,7 @@ const rootReducer = (state = initialState, action) => {
       const withRemovedCountry = state.countries.filter(
         country => country.id !== action.payload
       );
-      setLocalStorage(withRemovedCountry);
+      countriesService.setCountries(withRemovedCountry)
       return {
         ...state,
         countries: withRemovedCountry
@@ -50,7 +50,7 @@ const rootReducer = (state = initialState, action) => {
       const withUpdatedCountry = state.countries.map(country =>
         country.id === action.payload.id ? action.payload : country
       );
-      setLocalStorage(withUpdatedCountry);
+      countriesService.setCountries(withUpdatedCountry);
       return {
         ...state,
         countries: withUpdatedCountry

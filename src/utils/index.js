@@ -1,8 +1,7 @@
 export {
-  setLocalStorage,
-  initLocalStorage,
-  generateRandomCountries,
   filtrate,
   sort,
-  isEqual
+  isEqual,
+  debounce,
+  throttle
 } from "./utils";

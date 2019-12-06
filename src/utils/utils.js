@@ -28,3 +28,38 @@ export const filtrate = memoize((countries, filter) =>
 export const sort = memoize((countries, field, direction) =>
   [...countries].sort(compare(field, direction))
 );
+
+let timeout;
+
+export const throttle = (f, t) => (args) =>{
+  // ignore resize events as long as an actualResizeHandler execution is in the queue
+  if ( !timeout ) {
+    timeout = setTimeout(() => {
+      timeout = null;
+      f(args);
+     // The actualResizeHandler will execute at a rate of 15fps
+     }, t);
+  }
+}
+
+export const debounce = (f, t) =>{
+  return function (args) {
+    let previousCall = this.lastCall;
+    this.lastCall = Date.now();
+    if (previousCall && ((this.lastCall - previousCall) <= t)) {
+      clearTimeout(this.lastCallTimer);
+    }
+    this.lastCallTimer = setTimeout(() => f(args), t);
+  }
+}
+
+// throttle(f, t) {
+//   return function (args) {
+//     let previousCall = this.lastCall;
+//     this.lastCall = Date.now();
+//     if (previousCall === undefined // function is being called for the first time
+//         || (this.lastCall - previousCall) > t) { // throttle time has elapsed
+//       f(args);
+//     }
+//   }
+// }
