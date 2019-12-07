@@ -1,7 +1,6 @@
-export {
-  filtrate,
-  sort,
-  isEqual,
-  debounce,
-  throttle
-} from "./utils";
+export { filter } from "./src/UtilsFilter";
+export { sort } from "./src/UtilsSort";
+export { throttle } from "./src/UtilsThrottle";
+export { debounce } from "./src/UtilsDebounce";
+
+export { default } from "./src/Utils";

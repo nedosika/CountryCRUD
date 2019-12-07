@@ -88,4 +88,8 @@ class Dialog extends Component {
   }
 }
 
+Dialog.defaultProps = {
+  country: {}
+}
+
 export default withModal(Dialog);

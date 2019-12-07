@@ -7,7 +7,7 @@ import CountriesList from "./CountriesList";
 import Dialog from "../Dialog";
 import DeleteDialog from "../DeleteDialog";
 
-import { filtrate, sort } from "../../utils";
+import Utils, { sort } from "../../utils";
 
 class CountriesPage extends Component {
   state = {
@@ -26,7 +26,7 @@ class CountriesPage extends Component {
   };
 
   handleOpenDialog = (field, id) => {
-    this.setState(()=>({
+    this.setState(() => ({
       [field]: true,
       id
     }));
@@ -65,7 +65,7 @@ class CountriesPage extends Component {
           isOpen={isEdit}
           title="Edit Dialog"
           onSubmit={country => updateCountry(country)}
-          country={countries.find(country => country.id == id)}
+          country={countries.find(country => country.id === id)}
           close={this.closeDialogs}
         />
 
@@ -73,7 +73,6 @@ class CountriesPage extends Component {
           isOpen={isAdd}
           title="Add Dialog"
           onSubmit={country => addCountry(country)}
-          country={{}}
           close={this.closeDialogs}
         />
       </>
@@ -82,7 +81,11 @@ class CountriesPage extends Component {
 }
 
 const mapStateToProps = ({ countries, filter, sortField, sortDirection }) => ({
-  countries: sort(filtrate(countries, filter), sortField, sortDirection),
+  countries: sort(
+    Utils.filter(countries, filter),
+    sortField,
+    sortDirection
+  ),
   sortField,
   sortDirection
 });

@@ -12,7 +12,7 @@ import TextField from "@material-ui/core/TextField";
 
 import CountriesItem from "./CountriesItem";
 
-import { debounce, throttle } from "../../utils/";
+import Utils from "../../utils/";
 
 import classes from "./styles.module.css";
 
@@ -25,13 +25,13 @@ export default class CountriesTable extends Component {
   };
 
   componentDidMount() {
-    window.addEventListener("scroll", debounce(this.update, 100));
-    window.addEventListener("resize", debounce(this.update, 100));
+    window.addEventListener("scroll", Utils.throttle(this.update, 200));
+    window.addEventListener("resize", Utils.debounce(this.update, 100));
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", debounce(this.update, 100));
-    window.removeEventListener("resize", debounce(this.update, 100));
+    window.removeEventListener("scroll", Utils.throttle(this.update, 200));
+    window.removeEventListener("resize", Utils.debounce(this.update, 100));
   }
 
   update = () => {
