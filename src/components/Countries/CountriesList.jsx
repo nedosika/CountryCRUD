@@ -12,39 +12,54 @@ import TextField from "@material-ui/core/TextField";
 
 import CountriesItem from "./CountriesItem";
 
-import Utils from "../../utils/";
+import { debounce } from "../../utils/";
 
 import classes from "./styles.module.css";
 
 const heightElement = 62;
-const buffer = 25;
+const buffer = 3;
 
 export default class CountriesTable extends Component {
   state = {
-    offset: window.pageYOffset
+    offset: window.pageYOffset,
+    windowHeight: window.innerHeight
   };
 
   componentDidMount() {
-    window.addEventListener("scroll", Utils.throttle(this.update, 200));
-    window.addEventListener("resize", Utils.debounce(this.update, 100));
+    window.addEventListener("scroll", this.update);
+    window.addEventListener("resize", debounce(this.update, 100));
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", Utils.throttle(this.update, 200));
-    window.removeEventListener("resize", Utils.debounce(this.update, 100));
+    window.removeEventListener("scroll", this.update);
+    window.removeEventListener("resize", debounce(this.update, 100));
+  }
+
+  shouldComponentUpdate(props, state) {
+    return (
+      this.state.windowHeight !== window.innerHeight ||
+      this.state.offset !== state.offset ||
+      this.props.countries !== props.countries
+    );
   }
 
   update = () => {
-    this.setState({
-      offset: window.pageYOffset
-    });
+    if (
+      Math.abs(this.state.offset - window.pageYOffset) >
+        buffer * heightElement ||
+      this.state.windowHeight !== window.innerHeight
+    )
+      this.setState({
+        offset: window.pageYOffset,
+        windowHeight: window.innerHeight
+      });
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     console.log("CountriesList update");
   }
 
-  handleClick = ({target}) => {
+  handleClick = ({ target }) => {
     if (target.closest("svg")) {
       const { action, id } = target.closest("svg").dataset;
       this.props.onOpenDialog(action, id);
@@ -61,96 +76,90 @@ export default class CountriesTable extends Component {
       onOpenDialog
     } = this.props;
 
-    const calculateStart =
-      Math.floor(window.pageYOffset / heightElement) - buffer;
+    const startPosition =
+      Math.floor(window.pageYOffset / heightElement) - 2 * buffer;
 
-    const startElementPosition = calculateStart < 0 ? 0 : calculateStart;
+    const startElementPosition = Math.max(0, startPosition);
 
     const endElementPosition = Math.ceil(
-      (window.pageYOffset + window.innerHeight) / heightElement + buffer
+      (window.pageYOffset + window.innerHeight) / heightElement
     );
 
     const paddingTop = startElementPosition * heightElement;
 
-    const heightElements = (countries.length + 3) * heightElement - paddingTop;
-
     return (
-      <Paper
-        className={classes.root}
+      <div
         style={{
-          height: `${heightElements}px`,
-          paddingTop: `${paddingTop}px`
+          height: `${countries.length * heightElement}px`
         }}
       >
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell colSpan={4}>
-                <div className={classes.footerActions}>
-                  <AddCircleIcon
-                    className={classes.icon}
-                    onClick={() => onOpenDialog("isAdd")}
-                  />
-                  <TextField
-                    label="Filter"
-                    className={classes.findFild}
-                    onChange={({ target: { value } }) =>
-                      onFilterCountries(value)
-                    }
-                  />
-                </div>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={classes.actions}>
-                <span className={classes.title}>Actions</span>
-              </TableCell>
-              <TableCell>
-                <span className={classes.title}>№</span>
-              </TableCell>
-              <TableCell
-                sortDirection={sortField === "name" ? sortDirection : false}
-              >
-                <TableSortLabel
-                  active={sortField === "name"}
-                  direction={sortDirection}
-                  onClick={() => onSortCountries("name")}
-                  className={classes.title}
+        <Paper
+          className={classes.root}
+          style={{
+            paddingTop: `${paddingTop}px`
+          }}
+        >
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell colSpan={3}>
+                  <div className={classes.footerActions}>
+                    <AddCircleIcon
+                      className={classes.icon}
+                      onClick={() => onOpenDialog("isAdd")}
+                    />
+                    <TextField
+                      label="Filter"
+                      className={classes.findFild}
+                      onChange={({ target: { value } }) =>
+                        onFilterCountries(value)
+                      }
+                    />
+                  </div>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={classes.actions}>
+                  <span className={classes.title}>Actions</span>
+                </TableCell>
+                <TableCell
+                  sortDirection={sortField === "name" ? sortDirection : false}
                 >
-                  Name
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                sortDirection={sortField === "capital" ? sortDirection : false}
-              >
-                <TableSortLabel
-                  active={sortField === "capital"}
-                  direction={sortDirection}
-                  onClick={() => onSortCountries("capital")}
-                  className={classes.title}
-                >
-                  Capital
-                </TableSortLabel>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody onClick={this.handleClick} ref={this.TableBodyRef}>
-            {countries
-              .slice(startElementPosition, endElementPosition)
-              .map((country, index) => (
-                <CountriesItem
-                  country={country}
-                  key={country.id}
-                  index={
-                    sortDirection === "desc"
-                      ? startElementPosition + index + 1
-                      : countries.length - index - startElementPosition
+                  <TableSortLabel
+                    active={sortField === "name"}
+                    direction={sortDirection}
+                    onClick={() => onSortCountries("name")}
+                    className={classes.title}
+                  >
+                    Name
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell
+                  sortDirection={
+                    sortField === "capital" ? sortDirection : false
                   }
-                />
-              ))}
-          </TableBody>
-        </Table>
-      </Paper>
+                >
+                  <TableSortLabel
+                    active={sortField === "capital"}
+                    direction={sortDirection}
+                    onClick={() => onSortCountries("capital")}
+                    className={classes.title}
+                  >
+                    Capital
+                  </TableSortLabel>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody onClick={this.handleClick} ref={this.TableBodyRef}>
+              {countries
+                .slice(startElementPosition, endElementPosition)
+                .map((country, key) => (
+                  <CountriesItem country={country} key={key} />
+                ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      </div>
     );
   }
 }

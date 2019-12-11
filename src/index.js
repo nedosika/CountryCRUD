@@ -13,7 +13,7 @@ function App() {
       <div className="App">
         <h1>Hello CodeSandbox</h1>
         <ErrorBoundary>
-          <CountriesPage/>
+          <CountriesPage />
         </ErrorBoundary>
       </div>
     </Provider>

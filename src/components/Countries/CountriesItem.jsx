@@ -7,8 +7,8 @@ import EditIcon from "@material-ui/icons/Edit";
 
 import classes from "./styles.module.css";
 
-const CountriesItem = React.memo(props => {
-  const { country, index } = props;
+const CountriesItem = props => {
+  const { country } = props;
 
   return (
     <TableRow>
@@ -25,9 +25,6 @@ const CountriesItem = React.memo(props => {
         />
       </TableCell>
       <TableCell component="th" scope="row" align="left">
-        {index}
-      </TableCell>
-      <TableCell component="th" scope="row" align="left">
         {country.name}
       </TableCell>
       <TableCell component="th" scope="row" align="left">
@@ -35,8 +32,6 @@ const CountriesItem = React.memo(props => {
       </TableCell>
     </TableRow>
   );
-  
-});
-
+};
 
 export default CountriesItem;
