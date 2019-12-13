@@ -11,17 +11,9 @@ import CountriesService from "../services/CountriesService";
 const countriesService = new CountriesService();
 
 const initialState = {
-  // countries:
-  // [
-  //   { id: 1, name: "Ukraine", capital: "Kyiv" },
-  //   { id: 2, name: "Russia", capital: "Moscow" },
-  //   { id: 3, name: "USA", capital: "Washington" },
-  //   { id: 4, name: "Great Britain", capital: "London" },
-  //   { id: 5, name: "India", capital: "Deli" }
-  // ],
   countries: countriesService.getCountries(),
   filter: "",
-  sortField: "name",
+  sortField: "id",
   sortDirection: "desc"
 };
 

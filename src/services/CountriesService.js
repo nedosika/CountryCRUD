@@ -1,28 +1,32 @@
-import shortid from "shortid";
-
 export default class CountriesService {
   constructor(countries = CountriesService.generateRandomCountries()) {
-    this.init(countries)
-  };
+    this.init(countries);
+  }
 
   init = countries => {
-    if(!localStorage.getItem("countries"))
-      this.setCountries(countries);
+    if (!localStorage.getItem("countries")) this.setCountries(countries);
   };
 
   setCountries = countries => {
     localStorage.setItem("countries", JSON.stringify(countries));
-  }
+  };
 
   getCountries = () => JSON.parse(localStorage.getItem("countries"));
 
   static generateRandomCountries = (count = 10000) => {
-    const countries = [];
-    for (let i = 0; i < count; i++) {
+    const countries = [
+      { id: 1, name: "Ukraine", capital: "Kyiv" },
+      { id: 2, name: "Russia", capital: "Moscow" },
+      { id: 3, name: "USA", capital: "Washington" },
+      { id: 4, name: "Great Britain", capital: "London" },
+      { id: 5, name: "India", capital: "Deli" }
+    ];
+
+    for (let i = 6; i < count; i++) {
       countries.push({
-        id: shortid.generate(),
-        name: shortid.generate(),
-        capital: shortid.generate()
+        id: i,
+        name: `Country - ${i}`,
+        capital: `Capital - ${i}`
       });
     }
     return countries;

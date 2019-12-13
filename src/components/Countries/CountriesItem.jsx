@@ -25,6 +25,9 @@ const CountriesItem = props => {
         />
       </TableCell>
       <TableCell component="th" scope="row" align="left">
+        {country.id}
+      </TableCell>
+      <TableCell component="th" scope="row" align="left">
         {country.name}
       </TableCell>
       <TableCell component="th" scope="row" align="left">

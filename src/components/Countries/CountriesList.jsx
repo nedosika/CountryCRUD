@@ -17,7 +17,7 @@ import { debounce } from "../../utils/";
 import classes from "./styles.module.css";
 
 const heightElement = 62;
-const buffer = 3;
+const buffer = 5;
 
 export default class CountriesTable extends Component {
   state = {
@@ -46,7 +46,7 @@ export default class CountriesTable extends Component {
   update = () => {
     if (
       Math.abs(this.state.offset - window.pageYOffset) >
-        buffer * heightElement ||
+        (buffer / 2) * heightElement ||
       this.state.windowHeight !== window.innerHeight
     )
       this.setState({
@@ -76,16 +76,16 @@ export default class CountriesTable extends Component {
       onOpenDialog
     } = this.props;
 
-    const startPosition =
-      Math.floor(window.pageYOffset / heightElement) - 2 * buffer;
-
-    const startElementPosition = Math.max(0, startPosition);
+    const startElementPosition = Math.max(
+      0,
+      Math.floor(window.pageYOffset / heightElement) - buffer
+    );
 
     const endElementPosition = Math.ceil(
       (window.pageYOffset + window.innerHeight) / heightElement
-    );
+    ) + buffer;
 
-    const paddingTop = startElementPosition * heightElement;
+    const paddingTop = Math.max(0, startElementPosition - buffer) * heightElement;
 
     return (
       <div
@@ -102,7 +102,7 @@ export default class CountriesTable extends Component {
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell colSpan={3}>
+                <TableCell colSpan={4}>
                   <div className={classes.footerActions}>
                     <AddCircleIcon
                       className={classes.icon}
@@ -121,6 +121,18 @@ export default class CountriesTable extends Component {
               <TableRow>
                 <TableCell className={classes.actions}>
                   <span className={classes.title}>Actions</span>
+                </TableCell>
+                <TableCell
+                  sortDirection={sortField === "id" ? sortDirection : false}
+                >
+                  <TableSortLabel
+                    active={sortField === "id"}
+                    direction={sortDirection}
+                    onClick={() => onSortCountries("id")}
+                    className={classes.title}
+                  >
+                    Id
+                  </TableSortLabel>
                 </TableCell>
                 <TableCell
                   sortDirection={sortField === "name" ? sortDirection : false}
