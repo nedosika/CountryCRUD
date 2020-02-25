@@ -1,10 +1,11 @@
 export default class CountriesService {
-  constructor(countries = CountriesService.generateRandomCountries()) {
-    this.init(countries);
+  constructor() {
+    this.init();
   }
 
-  init = countries => {
-    if (!localStorage.getItem("countries")) this.setCountries(countries);
+  init = () => {
+    if (!localStorage.getItem("countries"))
+      this.setCountries(CountriesService.generateRandomCountries());
   };
 
   setCountries = countries => {
@@ -14,6 +15,7 @@ export default class CountriesService {
   getCountries = () => JSON.parse(localStorage.getItem("countries"));
 
   static generateRandomCountries = (count = 10000) => {
+    console.log("generate");
     const countries = [
       { id: 1, name: "Ukraine", capital: "Kyiv" },
       { id: 2, name: "Russia", capital: "Moscow" },
