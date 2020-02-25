@@ -81,11 +81,12 @@ export default class CountriesTable extends Component {
       Math.floor(window.pageYOffset / heightElement) - buffer
     );
 
-    const endElementPosition = Math.ceil(
-      (window.pageYOffset + window.innerHeight) / heightElement
-    ) + buffer;
+    const endElementPosition =
+      Math.ceil((window.pageYOffset + window.innerHeight) / heightElement) +
+      buffer;
 
-    const paddingTop = Math.max(0, startElementPosition - buffer) * heightElement;
+    const paddingTop =
+      Math.max(0, startElementPosition - buffer) * heightElement;
 
     return (
       <div
@@ -112,7 +113,7 @@ export default class CountriesTable extends Component {
                       label="Filter"
                       className={classes.findFild}
                       onChange={({ target: { value } }) =>
-                        onFilterCountries(value)
+                        debounce(onFilterCountries(value), 100)
                       }
                     />
                   </div>

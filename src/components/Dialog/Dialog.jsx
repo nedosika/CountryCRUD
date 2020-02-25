@@ -18,10 +18,6 @@ class Dialog extends Component {
     }
   }
 
-  componentDidUpdate(){
-    console.log("DialogUpdated");
-  }
-
   handleChange(field, {target: {value}}) {
     this.setState({
       [field]: value

@@ -30,9 +30,9 @@ const rootReducer = (state = initialState, action) => {
 
     case REMOVE_COUNTRY:
       const withRemovedCountry = state.countries.filter(
-        country => country.id !== action.payload
+        country => country.id != action.payload
       );
-      countriesService.setCountries(withRemovedCountry)
+      countriesService.setCountries(withRemovedCountry);
       return {
         ...state,
         countries: withRemovedCountry
